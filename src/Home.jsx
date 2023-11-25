@@ -1,20 +1,15 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom';
 
-function FlagGame() {
+function Home() {
     const [activeComponent, setActiveComponent] = useState('')
 
     return (
         <>
-
-            <main>
-                <article>
-                    <h1>Guess the Flag</h1>
-                </article>
-            </main>
+            <h1>Geo Game</h1>
         </>
     )
 }
 
-export default FlagGame
+export default Home
 

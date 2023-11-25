@@ -1,12 +1,10 @@
 import { useState, useEffect, createContext, useContext } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import FlagGame from './components/FlagGame'
 import CapitalGame from './components/CapitalGame'
 import Wiki from './components/Wiki'
-import './App.css'
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-
+import { Route, Routes } from 'react-router-dom';
+import Menu from './components/Menu'
+import Home from './Home'
 
 const CountryDataContext = createContext();
 
@@ -33,26 +31,15 @@ function App() {
 
   return (
     <>
-      <nav>
-        <Link to="/"><button>Home</button></Link>
-        <Link to="/flag-guessing-game"><button>Guess the Flag</button></Link>
-        <Link to="/capital-guessing-game"><button>Guess the Capital</button></Link>
-        <Link to="/learn-about-countries"><button>Learn about Countries</button></Link>
-      </nav>
-        <main className="mainhome">
-          <article className="homemenu">
-            <h1>Geo Game</h1>
-            <em>Now on React</em>
-            <h2>Choose your game</h2>
-            <div>
-              <Link to="/flag-guessing-game">Flag Game </Link>
-              <Link to="/capital-guessing-game">Capital Game </Link>
-              <Link to="/learn-about-countries">Wiki </Link>
-            </div>
-          </article>
-        </main>
-      </>
-      )
+      <Menu />
+      <Routes>
+        <Route path="*" element={<Home />} />
+        <Route path="/flag-guessing-game" element={<FlagGame />} />
+        <Route path="/capital-guessing-game" element={<CapitalGame />} />
+        <Route path="/learn-about-countries" element={<Wiki />} />
+      </Routes>
+    </>
+  )
 }
 
-      export default App
+export default App
