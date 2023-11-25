@@ -9,7 +9,6 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 
 const CountryDataContext = createContext();
-const BackButtonContext = createContext();
 
 function App() {
   const [activeComponent, setActiveComponent] = useState('Home')
@@ -31,57 +30,29 @@ function App() {
     }
   }
 
-  const handleFlagGameClick = () => {
-    setActiveComponent('FlagGame')
-  }
-
-  const handleCapitalGameClick = () => {
-    setActiveComponent('CapitalGame')
-  }
-
-  const handleWikiClick = () => {
-    setActiveComponent('Wiki')
-  }
-
-  const handleBackClick = () => {
-    setActiveComponent('Home')
-  }
-
-
-
-  const renderActiveComponent = () => {
-    switch (activeComponent) {
-      case 'FlagGame':
-        console.log("hola")
-        return <FlagGame />;
-      case 'CapitalGame':
-        return <CapitalGame />;
-      case 'Wiki':
-        return <Wiki />;
-      default:
-        return null;
-    }
-  };
 
   return (
     <>
-      <main className="mainhome">
-        <article className="homemenu">
-          <h1>Geo Game</h1>
-          <em>Now on React</em>
-          <h2>Choose your game</h2>
-          <div>
-            <a href="/flag-guessing-game">Test</a>
-            <Link to="/flag-guessing-game">Flag Game </Link>
-            <Link to="/capital-guessing-game">Capital Game </Link>
-            <Link to="/learn-about-countries">Wiki </Link>
-          </div>
-        </article>
-      </main>
-
-
-    </>
-  )
+      <nav>
+        <Link to="/"><button>Home</button></Link>
+        <Link to="/flag-guessing-game"><button>Guess the Flag</button></Link>
+        <Link to="/capital-guessing-game"><button>Guess the Capital</button></Link>
+        <Link to="/learn-about-countries"><button>Learn about Countries</button></Link>
+      </nav>
+        <main className="mainhome">
+          <article className="homemenu">
+            <h1>Geo Game</h1>
+            <em>Now on React</em>
+            <h2>Choose your game</h2>
+            <div>
+              <Link to="/flag-guessing-game">Flag Game </Link>
+              <Link to="/capital-guessing-game">Capital Game </Link>
+              <Link to="/learn-about-countries">Wiki </Link>
+            </div>
+          </article>
+        </main>
+      </>
+      )
 }
 
-export default App
+      export default App

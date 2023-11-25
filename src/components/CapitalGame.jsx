@@ -14,8 +14,13 @@ function CapitalGame() {
 
   return (
     <>
-      <main>
+    <nav>
         <button onClick={handleGoBack}>Go Back</button>
+    </nav>
+    <nav>
+        <Link to="/">Home</Link>
+    </nav>
+      <main>
         
         <article>
           <h1>Guess the capital</h1>
