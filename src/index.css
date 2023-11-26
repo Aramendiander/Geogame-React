@@ -30,9 +30,14 @@ body {
   justify-content: center;
 }
 
-h1,h2,h3,h4,h5,h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   width: 100%;
-  text-align:center;
+  text-align: center;
 }
 
 h1 {
@@ -183,7 +188,7 @@ main {
 }
 
 .flag-guessing-game article {
-  display:flex;
+  display: flex;
   flex-wrap: wrap;
 }
 
@@ -191,7 +196,126 @@ main {
   box-sizing: border-box;
   height: 15%;
   width: calc(50% - 2rem);
-  object-fit:contain;
+  object-fit: contain;
   margin: 1rem;
   max-height: 250px;
+  cursor: pointer;
+  object-fit:cover;
+}
+
+.nextgame {
+  display:flex;
+  flex-wrap:wrap;
+  flex-direction:row;
+  align-items:center;
+}
+
+.countdown {
+  margin-left: 10px;
+}
+
+
+.youwon {
+  text-align: center;
+  background-color: #1A1A1A;
+  padding: 25px;
+  border-radius: 30px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: grow 0.5s ease-in-out forwards;
+  border: 20px solid green;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.youmissed{
+  text-align: center;
+  background-color: #1A1A1A;
+  padding: 25px;
+  border-radius: 30px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: grow 0.5s ease-in-out forwards;
+  border: 20px solid var(--orange);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.youmissed img {
+  animation: grow 0.5s ease-in-out forwards;
+}
+
+.wrongguess {
+  color: var(--orange);
+}
+
+@keyframes grow {
+  from {
+    font-size: 0;
+    width: 0;
+    height: 0;
+  }
+  to {
+    font-size: 1.2rem;
+    width: 30%;
+    height: 30%;
+  }
+}
+
+.youmissed img {
+  max-width: 150px;
+  max-height: 150px;
+  object-fit:contain;
+}
+
+.capitalflag {
+  max-height:200px;
+  max-width: 200px;
+  object-fit: cover;
+  text-align:center;
+}
+
+.capital-guessing-game .gamefield {
+  display:flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items:center;
+}
+
+.options {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+}
+
+.options p {
+  cursor: pointer;
+  width: 50%;
+  text-align: center;
+  margin: 1rem;
+  width: calc(50% - 4rem);
+  padding: 1rem;
+  box-shadow: 0 0 0 1px var(--orange);
+}
+
+
+@media (max-width: 1024px) {
+  @keyframes grow {
+
+    to {
+
+      width: 50%;
+
+    }
+  }
 }

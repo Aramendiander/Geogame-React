@@ -13,7 +13,7 @@ const Menu = () => {
                         <Link to="/flag-guessing-game">Flag Guessing Game</Link>
                     </li>
                     <li>
-                        <Link to="/capital-guessing-game">Capital Geussing Game</Link>
+                        <Link to="/capital-guessing-game">Capital Guessing Game</Link>
                     </li>
                     <li>
                         <Link to="/learn-about-countries">Learn About Countries</Link>

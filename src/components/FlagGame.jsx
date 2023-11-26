@@ -1,45 +1,59 @@
 import { useState, useEffect, useContext } from 'react'
 import { useNavigate, Link } from 'react-router-dom';
+import Countdown from 'react-countdown';
 
 
 
 
 function FlagGame() {
-    const [activeComponent, setActiveComponent] = useState('')
+    const [activeGame, setActiveGame] = useState(true)
     const [chosenFlags, setChosenFlags] = useState([])
     const [correctFlag, setCorrectFlag] = useState("")
     const [loading, setLoading] = useState(true)
     const [countryData, setCountryData] = useState([])
     const [gameResult, setGameResult] = useState("")
-    const [userClickedOn, setUserClickedOn] = ('')
+    const [userClickedOn, setUserClickedOn] = useState('')
+    const [userScore, setUserScore] = useState(() => {
+        const score = localStorage.getItem("score");
+        return score ? parseInt(score) : 0;
+    });
 
     const getCountryData = async () => {
         try {
-                const data = await fetch("https://restcountries.com/v3.1/independent?status=true");
-                const results = await data.json();
-                console.log("api called")
-                setCountryData(results)
+            const data = await fetch("https://restcountries.com/v3.1/independent?status=true");
+            const results = await data.json();
+            console.log("api called")
+            setCountryData(results)
         } catch (e) {
             console.error(e)
         }
     }
 
     useEffect(() => {
+        getCountryData();
+        const score = localStorage.getItem("score");
+        if (score) {
+            setUserScore(parseInt(score));
+        }
+    }, []);
+
+    useEffect(() => {
         getFourFlags();
         setLoading(false)
     }, [countryData]);
-    
-    
-
-
 
     useEffect(() => {
-        getCountryData();
-    }, []);
+        updateLocalStorage();
+    }, [userScore]);
+
+    const updateLocalStorage = () => {
+        localStorage.setItem("score", userScore)
+    }
 
 
     const getFourFlags = async () => {
         try {
+            setActiveGame(true)
             if (countryData.length > 0) {
                 const data = countryData;
                 let flags = []
@@ -56,7 +70,7 @@ function FlagGame() {
 
                 setChosenFlags(flags)
 
-                setCorrectFlag(flags[Math.floor(Math.random() * 4)].name)
+                setCorrectFlag(flags[Math.floor(Math.random() * 4)])
             }
         } catch (e) {
             console.log(e)
@@ -65,54 +79,71 @@ function FlagGame() {
 
 
     const handleGuessClick = (flagname) => {
-        if (flagname === correctFlag) {
+        if (flagname === correctFlag.name) {
+            setUserScore(userScore + 100)
+            setActiveGame(false)
             setGameResult("win")
             setTimeout(() => {
                 setGameResult(null)
                 getFourFlags();
-            }, 5000);
+            }, 3000);
         } else {
+            setUserScore(userScore - 50)
+            setActiveGame(false)
+            setUserClickedOn(flagname)
             setGameResult("lose")
-            console.log(gameResult)
             setTimeout(() => {
                 setGameResult(null)
                 getFourFlags();
             }, 5000);
-            console.log("wrong, you clicked the flag of " + flagname)
         }
     }
-
 
     return (
         <>
             <main>
                 <h1>Guess the Flag</h1>
+                <p>Score: {userScore}</p>
                 {loading ? (
                     <p>Loading...</p>
                 ) : (
-                    <article className="gamefield">
-                        <h2>Choose the flag of {correctFlag}</h2>
-                        {chosenFlags.map((flag, index) => (
-                            <img className="guesstheflag" key={flag.name} src={flag.flag} onClick={() => handleGuessClick(flag.name)}></img>
-                        ))}
+                    activeGame ?
+                        <article className="gamefield">
+                            <h2>Choose the flag of {correctFlag.name}</h2>
+                            {chosenFlags.map((flag, index) => (
+                                <img className="guesstheflag" key={flag.name} src={flag.flag} onClick={() => handleGuessClick(flag.name)}></img>
+                            ))}
+                        </article>
+                        : null
+                )}
 
-                        {gameResult === 'win' && (
-                            <div className="acertaste">
-                                <p>Has acertado</p>
-                            </div>
-                        )}
-                        {gameResult === 'lose' && (
-                            <div className="fallaste">
-                                <p>Wrong, you clicked on </p>
-                            </div>
-                        )}
+                {gameResult === 'win' && (
+                    <div className="youwon">
+                        <p>You guessed it right!</p>
+                        <p>+100 points</p>
+                        <div className="nextgame">
+                            <p>Next game in: </p>
+                            <Countdown className="countdown" date={Date.now() + 3000} />
+                        </div>
 
 
-                    </article>
+                    </div>
+                )}
+                {gameResult === 'lose' && (
+                    <div className="youmissed">
+                        <p>Wrong, you clicked on <span className="wrongguess">{userClickedOn}</span> the correct flag was  </p>
+                        <img className="correctflag" src={correctFlag.flag} alt="" />
+                        <p>You missed! -50 points 😢</p>
+                        <div className="nextgame">
+                            <p>Next game in: </p>
+                            <Countdown className="countdown" date={Date.now() + 5000} />
+                        </div>
+                    </div>
                 )}
             </main>
         </>
     );
+
 }
 
 export default FlagGame
