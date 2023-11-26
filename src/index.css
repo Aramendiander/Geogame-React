@@ -204,13 +204,19 @@ main {
   flex-wrap: wrap;
 }
 
-.guesstheflag {
-  box-sizing: border-box;
-  height: 15%;
+div.singleflag {
+  height: 200px;
   width: calc(50% - 2rem);
-  object-fit: contain;
   margin: 1rem;
-  max-height: 250px;
+}
+
+.guesstheflag {
+  max-height: 100%;
+  max-width: 100%;
+ /*  max-height: 250px;
+  max-width: 250px; */
+  box-sizing: border-box;
+  width:100%;
   cursor: pointer;
   object-fit:contain;
 }

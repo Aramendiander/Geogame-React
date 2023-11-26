@@ -111,7 +111,9 @@ function FlagGame() {
                         <article className="gamefield">
                             <h2>Choose the flag of {correctFlag.name}</h2>
                             {chosenFlags.map((flag, index) => (
-                                <img className="guesstheflag" key={flag.name} src={flag.flag} onClick={() => handleGuessClick(flag.name)}></img>
+                                <div key={flag.name} className='singleflag'>
+                                    <img className="guesstheflag" key={flag.name} src={flag.flag} onClick={() => handleGuessClick(flag.name)}></img>
+                                </div>
                             ))}
                         </article>
                         : null
