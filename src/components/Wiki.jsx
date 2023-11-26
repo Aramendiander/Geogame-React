@@ -10,8 +10,8 @@ function Wiki() {
   return (
     <>
       <main>
-        <article>
           <h1>Countries Wiki</h1>
+        <article>
         </article>
       </main>
     </>

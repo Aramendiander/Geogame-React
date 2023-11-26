@@ -14,24 +14,20 @@ function App() {
   const [countryData, setCountryData] = useState([])
 
 
-  useEffect(() => {
-    getCountryData()
-  }, []);
 
 
-  const getCountryData = async () => {
+/*   const getCountryData = async () => {
     try {
-      const data = await fetch("https://restcountries.com/v3.1/all");
+      const data = await fetch("https://restcountries.com/v3.1/independent?status=true");
       const results = await data.json();
       setCountryData(results)
     } catch (e) {
       console.error(e)
     }
-  }
+  } */
 
   const addComponentNameToBody = () => {
     const location = useLocation().pathname
-    console.log(location)
     if (location === '/') {
       document.querySelector("body").className = "home"
     } else {
@@ -42,7 +38,6 @@ function App() {
 
   return (
     <>
-      <CountryDataContext.Provider value={countryData}>
         <Menu />
         {addComponentNameToBody()}
         <Routes>
@@ -51,10 +46,8 @@ function App() {
           <Route path="/capital-guessing-game" element={<CapitalGame />} />
           <Route path="/learn-about-countries" element={<Wiki />} />
         </Routes>
-      </CountryDataContext.Provider>
     </>
   )
 }
 
 export default App
-/* export { CountryDataContext } */

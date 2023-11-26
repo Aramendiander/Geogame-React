@@ -3,15 +3,15 @@
   line-height: 1.5;
   font-weight: 400;
 
-  /* color-scheme: light dark;
+  color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424; */
+  background-color: #242424;
 
-  --orange : #ef4947;
+  --orange: #ef4947;
   --lightblue: #33b9e1;
   --mediumblue: #1a92c0;
-  --darkblue: 	#006c9f;
-  --dark : #003254;
+  --darkblue: #006c9f;
+  --dark: #003254;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -27,10 +27,16 @@ body {
 #root {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  width: 100%;
+  text-align:center;
 }
 
 h1 {
-  font-size: 50px;  
+  font-size: 50px;
 }
 
 div.navbackground {
@@ -40,7 +46,7 @@ div.navbackground {
 
 }
 
-nav.menu{
+nav.menu {
   display: flex;
   align-items: center;
   background-color: #1a1a1a;
@@ -58,7 +64,7 @@ nav.menu{
 }
 
 .menu li {
-  display:inline;
+  display: inline;
 }
 
 .menu li a {
@@ -84,8 +90,83 @@ nav.menu{
   padding: 0px 50px 50px 50px;
   margin-top: 50px;
   width: 750px;
-  background-color: var(--lightblue);
 }
+
+/* .selectgame a {
+  padding:10px;
+  border: 2px solid var(--orange);
+  border-radius: 10px;
+  color: var(--orange);
+  font-weight:700;
+  text-decoration: none;
+  transition: 0.5s;
+} 
+
+.selectgame a:hover {
+  background-color: var(--orange);
+  color: white;
+}  */
+
+.selectgame a {
+  display: inline-block;
+  padding: .75rem 1.25rem;
+  color: var(--orange);
+  text-transform: uppercase;
+  font-size: 1rem;
+  letter-spacing: .15rem;
+  transition: all .2s;
+  position: relative;
+  text-decoration: none;
+  box-shadow: 0 0 0 2px var(--orange);
+}
+
+.selectgame a::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  height: 100%;
+  transition: all .5s;
+  z-index: -1;
+}
+
+.selectgame a.left::before {
+  left: 0;
+  width: 0%;
+}
+
+.selectgame a.right::before {
+  right: 0;
+  width: 0%;
+}
+
+.selectgame a.bottom::before {
+  left: 0;
+  bottom: 0;
+  height: 0%;
+  width: 100%;
+}
+
+.selectgame a.left:hover::before,
+.selectgame a.right:hover::before {
+  width: 100%;
+}
+
+.selectgame a.bottom:hover::before {
+  height: 100%;
+}
+
+.selectgame a:hover {
+  box-shadow: 0 0 0 2px var(--orange);
+  color: #fff;
+  border-radius: 15px;
+  transition: all 0.5s;
+}
+
+.selectgame a:hover::before {
+  border-radius: 13px;
+  background-color: var(--orange);
+}
+
 
 .games a:first-child {
   margin-right: 20px;
@@ -93,4 +174,24 @@ nav.menu{
 
 .games {
   margin-bottom: 20px;
+}
+
+
+
+main {
+  width: 50%;
+}
+
+.flag-guessing-game article {
+  display:flex;
+  flex-wrap: wrap;
+}
+
+.guesstheflag {
+  box-sizing: border-box;
+  height: 15%;
+  width: calc(50% - 2rem);
+  object-fit:contain;
+  margin: 1rem;
+  max-height: 250px;
 }
