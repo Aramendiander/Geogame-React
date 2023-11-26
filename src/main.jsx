@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, BrowserRouter } from 'react-router-dom';
+import {  } from 'react-router-dom';
 import App from './App.jsx'
 import FlagGame from './components/FlagGame.jsx';
 import CapitalGame from './components/CapitalGame.jsx';

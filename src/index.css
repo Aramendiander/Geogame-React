@@ -1,3 +1,24 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424; */
+
+  --orange : #ef4947;
+  --lightblue: #33b9e1;
+  --mediumblue: #1a92c0;
+  --darkblue: 	#006c9f;
+  --dark : #003254;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
   display: 0;
   margin: 0;
@@ -8,6 +29,10 @@ body {
   flex-wrap: wrap;
 }
 
+h1 {
+  font-size: 50px;  
+}
+
 div.navbackground {
   width: 100%;
   background-image: url("./assets/banner.webp");
@@ -16,6 +41,8 @@ div.navbackground {
 }
 
 nav.menu{
+  display: flex;
+  align-items: center;
   background-color: #1a1a1a;
   box-sizing: border-box;
   height: 100%;
@@ -23,6 +50,7 @@ nav.menu{
 }
 
 .menu ul {
+  width: 100%;
   margin: 0px;
   display: flex;
   justify-content: space-around;
@@ -39,3 +67,30 @@ nav.menu{
   text-decoration: none;
 }
 
+.home h1 {
+  font-size: 70px;
+  margin: 15px;
+}
+
+.home main {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.home article {
+  text-align: center;
+  padding: 0px 50px 50px 50px;
+  margin-top: 50px;
+  width: 750px;
+  background-color: var(--lightblue);
+}
+
+.games a:first-child {
+  margin-right: 20px;
+}
+
+.games {
+  margin-bottom: 20px;
+}

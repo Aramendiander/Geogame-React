@@ -6,7 +6,20 @@ function Home() {
 
     return (
         <>
-            <h1>Geo Game</h1>
+            <main>
+                <article>
+                    <h1>Geo Game</h1>
+                    <em>Now on React</em>
+                    <h2>Choose your game</h2>
+                    <div className="games">
+                        <Link to="/flag-guessing-game">Flag Guessing Game</Link>
+                        <Link to="/capital-guessing-game">Capital Guessing Game</Link>
+                    </div>
+                    <em>Or</em>
+                    <h2>Learn about countries</h2>
+                        <Link to="/learn-about-countries">Learn about countries</Link>
+                </article>
+            </main>
         </>
     )
 }

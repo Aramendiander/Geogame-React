@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useNavigate, Link } from 'react-router-dom';
+import { CountryDataContext } from '../App'
 
 function CapitalGame() {
   const [activeComponent, setActiveComponent] = useState('')
 
+  const countryData = useContext(CountryDataContext)
 
   return (
     <>
