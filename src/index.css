@@ -12,6 +12,7 @@
   --mediumblue: #1a92c0;
   --darkblue: #006c9f;
   --dark: #003254;
+  --postit: #FFFF99;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -307,6 +308,7 @@ div.singleflag {
   max-width: 200px;
   object-fit: cover;
   text-align:center;
+  margin: 20px 0px 50px 0px;
 }
 
 .capital-guessing-game .gamefield {
@@ -382,6 +384,46 @@ div.singleflag {
 .guessthecapital:hover::before {
   border-radius: 13px;
   background-color: var(--orange);
+}
+
+
+
+
+
+
+@media (min-width: 1440px) {
+
+  .leaderboards {
+    visibility: hidden;
+  }
+
+  .postit {
+    position: fixed;
+    top: 12rem;
+    left: 50px;
+    width: 300px;
+    height: 250px;
+    background-color: var(--postit);
+    color:black;
+    font-family: 'Kalam', cursive;
+  }
+
+  .postit .scoretitle {
+    margin:0;
+    text-align:center;
+    width: 100%;
+    background-color: #9f9f47;
+    height: 3rem;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem
+  }
+  
+  .score {
+    padding: 0 25px;
+    font-size: 1.3rem;
+  }
 }
 
 

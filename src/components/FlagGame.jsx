@@ -103,7 +103,6 @@ function FlagGame() {
         <>
             <main>
                 <h1>Guess the Flag</h1>
-                <p>Score: {userScore}</p>
                 {loading ? (
                     <p>Loading...</p>
                 ) : (
@@ -142,6 +141,11 @@ function FlagGame() {
                         </div>
                     </div>
                 )}
+                <h2 className='leaderboards'>Leaderboards:</h2>
+            <div className='postit'>
+                <p className='scoretitle'>Score:</p>
+                <p className='score'>User: <b>{userScore}</b> points</p>
+            </div>
             </main>
         </>
     );
