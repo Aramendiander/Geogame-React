@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
-import { useNavigate, Link } from 'react-router-dom';
 import Countdown from 'react-countdown';
-
+import { countryDataContext } from '../Root';
 
 
 
@@ -10,7 +9,7 @@ function FlagGame() {
     const [chosenFlags, setChosenFlags] = useState([])
     const [correctFlag, setCorrectFlag] = useState("")
     const [loading, setLoading] = useState(true)
-    const [countryData, setCountryData] = useState([])
+    const {countryData} = useContext(countryDataContext)
     const [gameResult, setGameResult] = useState("")
     const [userClickedOn, setUserClickedOn] = useState('')
     const [userScore, setUserScore] = useState(() => {
@@ -18,19 +17,7 @@ function FlagGame() {
         return score ? parseInt(score) : 0;
     });
 
-    const getCountryData = async () => {
-        try {
-            const data = await fetch("https://restcountries.com/v3.1/independent?status=true");
-            const results = await data.json();
-            console.log("api called")
-            setCountryData(results)
-        } catch (e) {
-            console.error(e)
-        }
-    }
-
     useEffect(() => {
-        getCountryData();
         const score = localStorage.getItem("score");
         if (score) {
             setUserScore(parseInt(score));

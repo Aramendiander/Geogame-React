@@ -5,12 +5,16 @@ import CapitalGame from '../pages/CapitalGame';
 import Wiki from '../pages/Wiki';
 import Home from '../pages/Home';
 import NotFound from '../pages/NotFound'
+import dataLoader from './dataLoader';
+
+
 
 const router = createBrowserRouter([
     {
       path: "/",
       element: <Root />,
       errorElement: <NotFound />,
+      loader: dataLoader,
       children: [
         {
           path: "/",
@@ -32,5 +36,7 @@ const router = createBrowserRouter([
     },
     
   ]);
+
+  
   
   export default router;

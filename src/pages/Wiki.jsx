@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
 import { useNavigate, Link } from 'react-router-dom';
-import { CountryDataContext } from '../Root'
+import { countryDataContext } from '../Root'
 
 function Wiki() {
   const [countryData, setCountryData] = useState([])
