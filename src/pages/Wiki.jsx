@@ -21,18 +21,18 @@ function Wiki() {
     }
   }
 
+
   return (
     <>
       <main>
         <h1>Countries Wiki</h1>
-        <article>
-          {countryData.map((country, index) => (
-            <div key={country.name.common} className="countrycard">
-              <p>{country.name.common}</p>
-              <img src={country.flags.svg} alt="" />
-              <p className="wikicapital">{country.capital.map((capital) => <span>{capital}</span>)}</p>
-              <p>Continent: {country.region}</p>
-              {console.log(country)}
+        <article className="wikigrid">
+          {countryData.sort((a, b) => a.name.common.localeCompare(b.name.common)).map((country, index) => (
+            <div key={index} className="countrycard">
+              <h2 key={"country " + country.name.common}>{country.name.common}</h2>
+              <img key={country.flags.svg} src={country.flags.svg} alt="" />
+              <p key={country.capital} className="wikicapital">{country.capital.map((capital, index) => <span key={index}>Capital: {capital} </span> )}</p>
+             {/*  <p key={country.region} >Continent: {country.region}</p> */}
               {/* <p className="languages">{country.languages.map((language) => <span>{language}</span>)}</p> */}
             </div>
           ))}
