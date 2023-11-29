@@ -5,13 +5,17 @@ import { countryDataContext } from '../Root';
 
 
 function FlagGame() {
+    const [activeComponent, setActiveComponent] = useState('chooseGame');
+    const [startingGame, setStartingGame] = useState(false);
     const [activeGame, setActiveGame] = useState(true)
     const [chosenFlags, setChosenFlags] = useState([])
     const [correctFlag, setCorrectFlag] = useState("")
     const [loading, setLoading] = useState(true)
-    const {countryData} = useContext(countryDataContext)
+    const { countryData } = useContext(countryDataContext)
     const [gameResult, setGameResult] = useState("")
     const [userClickedOn, setUserClickedOn] = useState('')
+    const [gameWillBegin, setGameWillBegin] = useState(5)
+    const [gameTime, setGameTime] = useState(5)
     const [userScore, setUserScore] = useState(() => {
         const score = localStorage.getItem("score");
         return score ? parseInt(score) : 0;
@@ -65,6 +69,23 @@ function FlagGame() {
     }
 
 
+    const handleGameModeClick = (gamemode) => {
+        console.log("you clicked ", gamemode)
+        if (gamemode === 'infinite') {
+            setActiveComponent(gamemode)
+        } else if (gamemode === 'timed') {
+            setStartingGame(true)
+            setTimeout(() => {
+                setActiveComponent(gamemode);
+
+            }, 5000);
+        }
+    }
+
+
+
+
+
     const handleGuessClick = (flagname) => {
         if (flagname === correctFlag.name) {
             setUserScore(userScore + 100)
@@ -86,15 +107,64 @@ function FlagGame() {
         }
     }
 
+
+
+
+    useEffect(() => {
+        if (startingGame && gameWillBegin > 0) {
+            const countdownInterval = setInterval(() => {
+                setGameWillBegin(prevCount => prevCount - 1);
+            }, 1000);
+            if (gameWillBegin === 0) {
+                setStartingGame(false);
+            }
+            return () => clearInterval(countdownInterval);
+        }
+    }, [startingGame, gameWillBegin]);
+
+
+    useEffect(() => {
+        if (startingGame && gameWillBegin === 0 && gameTime > 0) {
+            const gameLengthCountdownInterval = setInterval(() => {
+
+                setGameTime(gameTime - 1);
+            }, 1000);
+
+            return () => clearInterval(gameLengthCountdownInterval);
+        }
+    }, [startingGame, gameWillBegin, gameTime]);
+
+    useEffect(() => {
+        if(gameTime === 0) {
+            gameOver()
+        }
+    },[gameTime])
+
+    const gameOver = () => {
+        setActiveComponent('chooseGame');
+        console.log('game over')
+    }
+
     return (
         <>
             <main>
                 <h1>Guess the Flag</h1>
-                {loading ? (
-                    <p>Loading...</p>
-                ) : (
-                    activeGame ?
+
+                <>
+                    {activeComponent === 'chooseGame' && (
+                        <div>
+                            <p>Choose your game</p>
+                            <button onClick={() => handleGameModeClick("infinite")} >Infinite mode</button>
+                            <button onClick={() => handleGameModeClick("timed")} >Time trial</button>
+                        </div>
+                    )}
+
+
+
+
+                    {activeComponent === 'infinite' && (
                         <article className="gamefield">
+                            <p></p>
                             <h2>Choose the flag of {correctFlag.name}</h2>
                             {chosenFlags.map((flag, index) => (
                                 <div key={flag.name} className='singleflag'>
@@ -102,8 +172,27 @@ function FlagGame() {
                                 </div>
                             ))}
                         </article>
-                        : null
-                )}
+                    )}
+
+                    {gameWillBegin > 0 && startingGame && (
+                        <p className="starting">Game will begin in {gameWillBegin} </p>
+                    )}
+
+                    {activeComponent === 'timed' && (
+                        <article className="gamefield">
+                            <p>Time left: {gameTime}</p>
+                            <h2>Choose the flag of {correctFlag.name}</h2>
+                            {chosenFlags.map((flag, index) => (
+                                <div key={flag.name} className='singleflag'>
+                                    <img className="guesstheflag" key={flag.name} src={flag.flag} onClick={() => handleGuessClick(flag.name)}></img>
+                                </div>
+                            ))}
+                        </article>
+                    )}
+
+                </>
+
+
 
                 {gameResult === 'win' && (
                     <div className="youwon">
@@ -129,10 +218,10 @@ function FlagGame() {
                     </div>
                 )}
                 <h2 className='leaderboards'>Leaderboards:</h2>
-            <div className='postit'>
-                <p className='scoretitle'>Score:</p>
-                <p className='score'>User: <b>{userScore}</b> points</p>
-            </div>
+                <div className='postit'>
+                    <p className='scoretitle'>Score:</p>
+                    <p className='score'>User: <b>{userScore}</b> points</p>
+                </div>
             </main>
         </>
     );
