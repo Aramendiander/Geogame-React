@@ -38,7 +38,6 @@ function Wiki() {
   country.name.common.toLowerCase().includes(searchState.toLowerCase())
 );
 
-
   return (
     <>
       <main>
