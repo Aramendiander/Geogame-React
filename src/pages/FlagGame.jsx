@@ -69,7 +69,7 @@ function FlagGame() {
 
     //Real time leaderboard update
     useEffect(() => {
-        const existingScoresString = localStorage.getItem('userScores');
+        const existingScoresString = localStorage.getItem('userScoresFlags');
         const existingScores = existingScoresString ? JSON.parse(existingScoresString) : [];
         setLeaderboardData(existingScores);
     }, [userScore]);
@@ -164,7 +164,7 @@ function FlagGame() {
             gameOver()
         }
         else if (username) {
-            const existingScoresString = localStorage.getItem('userScores');
+            const existingScoresString = localStorage.getItem('userScoresFlags');
             const existingScores = existingScoresString ? JSON.parse(existingScoresString) : [];
             const newScore = {
                 username,
@@ -174,7 +174,7 @@ function FlagGame() {
             updatedScores.sort((a, b) => b.score - a.score);
             const top5Scores = updatedScores.slice(0, 5);
             const top5ScoresString = JSON.stringify(top5Scores);
-            localStorage.setItem('userScores', top5ScoresString);
+            localStorage.setItem('userScoresFlags', top5ScoresString);
         }
 
         setUserScore(0)
