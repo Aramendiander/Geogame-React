@@ -13,6 +13,7 @@ function FlagGame() {
     const [loading, setLoading] = useState(true)
     const { countryData } = useContext(countryDataContext)
     const [gameResult, setGameResult] = useState("")
+    const [timedGameSelected, setTimedGameSelected] = useState(false);
     const [userClickedOn, setUserClickedOn] = useState('')
     const [gameWillBegin, setGameWillBegin] = useState(5)
     const [gameTime, setGameTime] = useState(5)
@@ -20,26 +21,59 @@ function FlagGame() {
         const score = localStorage.getItem("score");
         return score ? parseInt(score) : 0;
     });
+    const [leaderboardData, setLeaderboardData] = useState([]);
 
-    useEffect(() => {
-        const score = localStorage.getItem("score");
-        if (score) {
-            setUserScore(parseInt(score));
-        }
-    }, []);
+
 
     useEffect(() => {
         getFourFlags();
         setLoading(false)
     }, [countryData]);
 
+
+    // Game will begin countdown
     useEffect(() => {
-        updateLocalStorage();
+        if (startingGame && gameWillBegin > 0 && activeGame) {
+            const countdownInterval = setInterval(() => {
+                setGameWillBegin(prevCount => prevCount - 1);
+            }, 1000);
+
+            if (gameWillBegin === 0) {
+                setStartingGame(false);
+            }
+
+            return () => clearInterval(countdownInterval);
+        }
+    }, [startingGame, gameWillBegin, activeGame]);
+
+
+    //Game time counter
+    useEffect(() => {
+        if (gameWillBegin === 0 && activeGame) {
+            const gameLengthCountdownInterval = setInterval(() => {
+                setGameTime(gameTime - 1);
+            }, 1000);
+
+            return () => clearInterval(gameLengthCountdownInterval);
+        }
+    }, [startingGame, gameWillBegin, gameTime, activeGame]);
+
+
+    //Game over handler
+    useEffect(() => {
+        if (gameTime === 0 && activeGame && timedGameSelected) {
+            gameOver();
+        }
+    }, [gameTime, activeGame, timedGameSelected]);
+
+
+    //Real time leaderboard update
+    useEffect(() => {
+        const existingScoresString = localStorage.getItem('userScores');
+        const existingScores = existingScoresString ? JSON.parse(existingScoresString) : [];
+        setLeaderboardData(existingScores);
     }, [userScore]);
 
-    const updateLocalStorage = () => {
-        localStorage.setItem("score", userScore)
-    }
 
 
     const getFourFlags = async () => {
@@ -70,17 +104,19 @@ function FlagGame() {
 
 
     const handleGameModeClick = (gamemode) => {
-        console.log("you clicked ", gamemode)
         if (gamemode === 'infinite') {
-            setActiveComponent(gamemode)
+            setActiveComponent(gamemode);
+            setTimedGameSelected(false);
         } else if (gamemode === 'timed') {
-            setStartingGame(true)
+            setGameWillBegin(5)
+            setGameTime(5)
+            setStartingGame(true);
+            setTimedGameSelected(true);
             setTimeout(() => {
                 setActiveComponent(gamemode);
-
             }, 5000);
         }
-    }
+    };
 
 
 
@@ -110,40 +146,41 @@ function FlagGame() {
 
 
 
-    useEffect(() => {
-        if (startingGame && gameWillBegin > 0) {
-            const countdownInterval = setInterval(() => {
-                setGameWillBegin(prevCount => prevCount - 1);
-            }, 1000);
-            if (gameWillBegin === 0) {
-                setStartingGame(false);
-            }
-            return () => clearInterval(countdownInterval);
-        }
-    }, [startingGame, gameWillBegin]);
 
-
-    useEffect(() => {
-        if (startingGame && gameWillBegin === 0 && gameTime > 0) {
-            const gameLengthCountdownInterval = setInterval(() => {
-
-                setGameTime(gameTime - 1);
-            }, 1000);
-
-            return () => clearInterval(gameLengthCountdownInterval);
-        }
-    }, [startingGame, gameWillBegin, gameTime]);
-
-    useEffect(() => {
-        if(gameTime === 0) {
-            gameOver()
-        }
-    },[gameTime])
 
     const gameOver = () => {
+        let username = window.prompt('Please insert your name (Max 10 characters', 'User');
+
+        if (username === null) {
+            alert('You clicked Cancel. Using default username: ' + 'User');
+            username = 'User';
+        }
+
+        if (username.length > 10) {
+            alert('Name is too long. Please enter a name with up to 10 characters.');
+            gameOver()
+        } else if (username.length == 0) {
+            alert('Please enter a name.');
+            gameOver()
+        }
+        else if (username) {
+            const existingScoresString = localStorage.getItem('userScores');
+            const existingScores = existingScoresString ? JSON.parse(existingScoresString) : [];
+            const newScore = {
+                username,
+                score: userScore,
+            };
+            const updatedScores = [...existingScores, newScore];
+            updatedScores.sort((a, b) => b.score - a.score);
+            const top5Scores = updatedScores.slice(0, 5);
+            const top5ScoresString = JSON.stringify(top5Scores);
+            localStorage.setItem('userScores', top5ScoresString);
+        }
+
+        setUserScore(0)
         setActiveComponent('chooseGame');
-        console.log('game over')
-    }
+        console.log('game over');
+    };
 
     return (
         <>
@@ -151,6 +188,7 @@ function FlagGame() {
                 <h1>Guess the Flag</h1>
 
                 <>
+                    {/* Choose game mode */}
                     {activeComponent === 'chooseGame' && (
                         <div>
                             <p>Choose your game</p>
@@ -161,7 +199,7 @@ function FlagGame() {
 
 
 
-
+                    {/* Infinite game component */}
                     {activeComponent === 'infinite' && (
                         <article className="gamefield">
                             <p></p>
@@ -173,6 +211,12 @@ function FlagGame() {
                             ))}
                         </article>
                     )}
+
+
+
+
+
+                    {/* Timed game component */}
 
                     {gameWillBegin > 0 && startingGame && (
                         <p className="starting">Game will begin in {gameWillBegin} </p>
@@ -194,10 +238,14 @@ function FlagGame() {
 
 
 
+                {/* Game results */}
+
                 {gameResult === 'win' && (
                     <div className="youwon">
                         <p>You guessed it right!</p>
-                        <p>+100 points</p>
+                        {activeComponent === 'timed' && (
+                            <p>+100 points</p>
+                        )}
                         <div className="nextgame">
                             <p>Next game in: </p>
                             <Countdown className="countdown" date={Date.now() + 3000} />
@@ -210,17 +258,47 @@ function FlagGame() {
                     <div className="youmissed">
                         <p>Wrong, you clicked on <span className="wrongguess">{userClickedOn}</span> the correct flag was  </p>
                         <img className="correctflag" src={correctFlag.flag} alt="" />
-                        <p>You missed! -50 points 😢</p>
+                        {activeComponent === 'timed' && (
+                            <p>You missed! -50 points 😢</p>
+                        )}
                         <div className="nextgame">
                             <p>Next game in: </p>
                             <Countdown className="countdown" date={Date.now() + 5000} />
                         </div>
                     </div>
                 )}
+
+
+
+                {/* Leaderboards */}
                 <h2 className='leaderboards'>Leaderboards:</h2>
                 <div className='postit'>
                     <p className='scoretitle'>Score:</p>
-                    <p className='score'>User: <b>{userScore}</b> points</p>
+                    {leaderboardData.length > 0 && (
+                        <ol>
+                            {leaderboardData.map((entry, index) => (
+                                <li key={index}>
+                                    <span className='leaderboard-username'>{entry.username + ': '}</span>
+                                    <span className='leaderboard-score'>{entry.score} points</span>
+                                </li>
+                            ))}
+                        </ol>
+                    )}
+                </div>
+                <div className='leaderboard-list'>
+                    {leaderboardData.length > 0 && (
+                        <ol>
+                            {leaderboardData.map((entry, index) => (
+                                <li key={index}>
+                                    <span className='leaderboard-username'>{entry.username + ' '}</span>
+                                    <span className='leaderboard-score'>{entry.score} points</span>
+                                </li>
+                            ))}
+                        </ol>
+                    )}
+                    {leaderboardData.length === 0 && (
+                        <p>No scores available yet.</p>
+                    )}
                 </div>
             </main>
         </>
