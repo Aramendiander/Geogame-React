@@ -6,37 +6,77 @@ import { countryDataContext } from '../Root';
 
 
 function CapitalGame() {
+  const [activeComponent, setActiveComponent] = useState('chooseGame');
+  const [startingGame, setStartingGame] = useState(false);
   const [activeGame, setActiveGame] = useState(true)
   const [chosenCapitals, setChosenCapitals] = useState([])
   const [correctCapital, setCorrectCapital] = useState("")
   const [loading, setLoading] = useState(true)
-  const {countryData} = useContext(countryDataContext)
+  const { countryData } = useContext(countryDataContext)
   const [gameResult, setGameResult] = useState("")
+  const [timedGameSelected, setTimedGameSelected] = useState(false);
   const [userClickedOn, setUserClickedOn] = useState('')
+  const [gameWillBegin, setGameWillBegin] = useState(5)
+  const [gameTime, setGameTime] = useState(5)
   const [userScore, setUserScore] = useState(() => {
     const score = localStorage.getItem("score");
     return score ? parseInt(score) : 0;
-  }); 
+  });
+  const [leaderboardData, setLeaderboardData] = useState([]);
 
-  useEffect(() => {
-    const score = localStorage.getItem("score");
-    if (score) {
-      setUserScore(parseInt(score));
-    }
-  }, []);
 
   useEffect(() => {
     getFourCapitals();
     setLoading(false)
   }, [countryData]);
 
+
+  // Game will begin countdown
   useEffect(() => {
-    updateLocalStorage();
+    if (startingGame && gameWillBegin > 0 && activeGame) {
+      const countdownInterval = setInterval(() => {
+        setGameWillBegin(prevCount => prevCount - 1);
+      }, 1000);
+
+      if (gameWillBegin === 0) {
+        setStartingGame(false);
+      }
+
+      return () => clearInterval(countdownInterval);
+    }
+  }, [startingGame, gameWillBegin, activeGame]);
+
+
+  //Game time counter
+  useEffect(() => {
+    if (gameWillBegin === 0 && activeGame) {
+      const gameLengthCountdownInterval = setInterval(() => {
+        setGameTime(gameTime - 1);
+      }, 1000);
+
+      return () => clearInterval(gameLengthCountdownInterval);
+    }
+  }, [startingGame, gameWillBegin, gameTime, activeGame]);
+
+
+  //Game over handler
+  useEffect(() => {
+    if (gameTime === 0 && activeGame && timedGameSelected) {
+      gameOver();
+    }
+  }, [gameTime, activeGame, timedGameSelected]);
+
+
+  //Real time leaderboard update
+  useEffect(() => {
+    const existingScoresString = localStorage.getItem('userScoresCapitals');
+    const existingScores = existingScoresString ? JSON.parse(existingScoresString) : [];
+    setLeaderboardData(existingScores);
   }, [userScore]);
 
-  const updateLocalStorage = () => {
-    localStorage.setItem("score", userScore)
-  }
+
+
+
 
 
   const getFourCapitals = async () => {
@@ -66,6 +106,25 @@ function CapitalGame() {
     }
   }
 
+
+
+
+  const handleGameModeClick = (gamemode) => {
+    if (gamemode === 'infinite') {
+      setActiveComponent(gamemode);
+      setTimedGameSelected(false);
+    } else if (gamemode === 'timed') {
+      setGameWillBegin(5)
+      setGameTime(5)
+      setStartingGame(true);
+      setTimedGameSelected(true);
+      setTimeout(() => {
+        setActiveComponent(gamemode);
+      }, 5000);
+    }
+  };
+
+
   const handleGuessClick = (capitalname, countryname) => {
     if (capitalname === correctCapital.capital) {
       setUserScore(userScore + 100)
@@ -89,14 +148,68 @@ function CapitalGame() {
       }, 5000);
     }
   }
+
+
+
+
+  const gameOver = () => {
+    let username = window.prompt('Please insert your name (Max 10 characters', 'User');
+
+    if (username === null) {
+      alert('You clicked Cancel. Using default username: ' + 'User');
+      username = 'User';
+    }
+
+    if (username.length > 10) {
+      alert('Name is too long. Please enter a name with up to 10 characters.');
+      gameOver()
+    } else if (username.length == 0) {
+      alert('Please enter a name.');
+      gameOver()
+    }
+    else if (username) {
+      const existingScoresString = localStorage.getItem('userScoresCapitals');
+      const existingScores = existingScoresString ? JSON.parse(existingScoresString) : [];
+      const newScore = {
+        username,
+        score: userScore,
+      };
+      const updatedScores = [...existingScores, newScore];
+      updatedScores.sort((a, b) => b.score - a.score);
+      const top5Scores = updatedScores.slice(0, 5);
+      const top5ScoresString = JSON.stringify(top5Scores);
+      localStorage.setItem('userScoresCapitals', top5ScoresString);
+    }
+
+    setUserScore(0)
+    setActiveComponent('chooseGame');
+    console.log('game over');
+  };
+
+
+
+
+
+
   return (
     <>
       <main>
         <h1>Guess the Capital</h1>
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          activeGame ?
+
+        <>
+          {/* Choose game mode */}
+          {activeComponent === 'chooseGame' && (
+            <div>
+              <p>Choose your game</p>
+              <button onClick={() => handleGameModeClick("infinite")} >Infinite mode</button>
+              <button onClick={() => handleGameModeClick("timed")} >Time trial</button>
+            </div>
+          )}
+
+
+
+          {/* Infinite game component */}
+          {activeComponent === 'infinite' && (
             <article className="gamefield">
               <h2>Choose the capital of {correctCapital.name}</h2>
               <img className="capitalflag" src={correctCapital.flag} />
@@ -106,42 +219,102 @@ function CapitalGame() {
                 ))}
               </div>
             </article>
-            : null
-        )}
+             )}
+
+
+ {/* Timed game component */}
+
+ {gameWillBegin > 0 && startingGame && (
+                        <p className="starting">Game will begin in {gameWillBegin} </p>
+                    )}
+
+                    {activeComponent === 'timed' && (
+                        <article className="gamefield">
+                            <p>Time left: {gameTime}</p>
+                            <h2>Choose the capital of {correctCapital.name}</h2>
+                            <img className="capitalflag" src={correctCapital.flag} />
+              <div className="options">
+                {chosenCapitals.map((capital, index) => (
+                  <p className="guessthecapital" key={capital.name} onClick={() => handleGuessClick(capital.capital, capital.name)}>{capital.capital}</p>
+                ))}
+              </div>
+            </article>
+                    )}
+
+                </>
+
+
+
+
+
+
+
+
+
+
 
         {gameResult === 'win' && (
-          <div className="youwon">
-            <p>You guessed it right!</p>
-            <p>+100 points</p>
-            <div className="nextgame">
-              <p>Next game in: </p>
-              <Countdown className="countdown" date={Date.now() + 3000} />
-            </div>
+            <div className="youwon">
+              <p>You guessed it right!</p>
+              {activeComponent === 'timed' && (
+              <p>+100 points</p>
+              )}
+              <div className="nextgame">
+                <p>Next game in: </p>
+                <Countdown className="countdown" date={Date.now() + 3000} />
+              </div>
 
-          </div>
-        )}
-        {gameResult === 'lose' && (
-          <div className="youmissed">
+            </div>
+          )}
+          {gameResult === 'lose' && (
+            <div className="youmissed">
 
-            <p>Wrong, you clicked on <span className="wrongguess">{userClickedOn.capital}</span> capital of <span className="wrongguess">{userClickedOn.country}</span> </p>
-            <p>The capital of <span className="correctanswer">{correctCapital.name}</span> is <span className="correctanswer">{correctCapital.capital}</span></p>
-            <p>You missed! -50 points 😢</p>
-            <div className="nextgame">
-              <p>Next game in: </p>
-              <Countdown className="countdown" date={Date.now() + 5000} />
+              <p>Wrong, you clicked on <span className="wrongguess">{userClickedOn.capital}</span> capital of <span className="wrongguess">{userClickedOn.country}</span> </p>
+              <p>The capital of <span className="correctanswer">{correctCapital.name}</span> is <span className="correctanswer">{correctCapital.capital}</span></p>
+              {activeComponent === 'timed' && (
+              <p>You missed! -50 points 😢</p>
+              )}
+              <div className="nextgame">
+                <p>Next game in: </p>
+                <Countdown className="countdown" date={Date.now() + 5000} />
+              </div>
             </div>
-          </div>
-        )}
-        <h2 className='leaderboards'>Leaderboards:</h2>
-            <div className='postit'>
-                <p className='scoretitle'>Score:</p>
-                <p className='score'>User: <b>{userScore}</b> points</p>
-            </div>
-      </main>
-    </>
-  );
+          )}
+          {/* Leaderboards */}
+          <h2 className='leaderboards'>Leaderboards:</h2>
+                <div className='postit'>
+                    <p className='scoretitle'>Score:</p>
+                    {leaderboardData.length > 0 && (
+                        <ol>
+                            {leaderboardData.map((entry, index) => (
+                                <li key={index}>
+                                    <span className='leaderboard-username'>{entry.username + ': '}</span>
+                                    <span className='leaderboard-score'>{entry.score} points</span>
+                                </li>
+                            ))}
+                        </ol>
+                    )}
+                </div>
+                <div className='leaderboard-list'>
+                    {leaderboardData.length > 0 && (
+                        <ol>
+                            {leaderboardData.map((entry, index) => (
+                                <li key={index}>
+                                    <span className='leaderboard-username'>{entry.username + ' '}</span>
+                                    <span className='leaderboard-score'>{entry.score} points</span>
+                                </li>
+                            ))}
+                        </ol>
+                    )}
+                    {leaderboardData.length === 0 && (
+                        <p>No scores available yet.</p>
+                    )}
+                </div>
+            </main>
+        </>
+    );
 
 }
 
-export default CapitalGame
+      export default CapitalGame
 
