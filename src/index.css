@@ -66,7 +66,7 @@ nav.menu {
   justify-content: center;
   align-items: center;
   height: 100%;
-
+  padding: 0;
 }
 
 .menu li {
@@ -102,6 +102,7 @@ nav.menu {
   width: 100%;
   height: 100%;
   justify-content: center;
+  text-align: center;
 }
 
 .menu li::before {
@@ -149,20 +150,6 @@ nav.menu {
   align-items: center;
 }
 
-/* .selectgame a {
-  padding:10px;
-  border: 2px solid var(--orange);
-  border-radius: 10px;
-  color: var(--orange);
-  font-weight:700;
-  text-decoration: none;
-  transition: 0.5s;
-} 
-
-.selectgame a:hover {
-  background-color: var(--orange);
-  color: white;
-}  */
 
 .selectgame a {
   display: inline-block;
@@ -297,16 +284,16 @@ div.singleflag {
   margin-left: -250px;
   background-color: #1a1a1a;
   border: 1px solid var(--orange);
-  display:flex;
+  display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .timeleft {
-  display:flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width:100%;
+  width: 100%;
 }
 
 
@@ -371,6 +358,20 @@ div.singleflag {
     font-size: 1.2rem;
     width: 30%;
     height: 30%;
+  }
+}
+
+@keyframes growmobile {
+  from {
+    font-size: 0;
+    width: 0;
+    height: 0;
+  }
+
+  to {
+    font-size: 1.2rem;
+    width: 80%;
+    height: 50%;
   }
 }
 
@@ -595,6 +596,8 @@ article.wikigrid {
 
 .moreinfo p {
   line-height: 10px;
+  text-align: center;
+  margin: 10px 0;
 }
 
 span.multiplelanguages:not(:last-child)::after,
@@ -719,6 +722,97 @@ body.blur::after {
   margin-right: 20px;
 }
 
+@media screen and (max-width: 1024px) {
+
+  .menu ul {
+    justify-content: space-between;
+  }
+
+  .learn-about-countries main {
+    width: 100%;
+    padding: 0 5%;
+  }
+
+}
+
+
+
+@media screen and (max-width: 768px) {
+  .menu li {
+    margin-right: 0px !important;
+    width: 25%;
+  }
+
+  .menu li a,
+  .games a {
+    font-size: 16px;
+  }
+
+  .moreinfo {
+    padding: 5px;
+  }
+
+  .moreinfo p {
+    line-height: normal;
+    font-size: 14px;
+  }
+
+  .moreinfo img {
+    max-height: 150px;
+  }
+
+  article.wikigrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+
+  .search input[type="text"] {
+    width: 50%;
+    font-size: 16px;
+  }
+
+  .youmissed {
+    animation: growmobile 0.5s ease-in-out forwards;
+  }
+
+  .flag-guessing-game main, .capital-guessing-game main {
+    width: 90%;
+  }
+
+}
+
+
+@media screen and (max-width: 425px) {
+
+  .flag-guessing-game main,
+  .capital-guessing-game main {
+    width: 100%;
+  }
+
+  article.wikigrid {
+    grid-template-columns: repeat(1, 1fr);
+    padding: 0 10%;
+  }
+
+  .moreinfo img {
+    max-width: 150px;
+    text-align: center;
+  }
+
+  .search input[type="text"] {
+    width: 80%;
+    font-size: 16px;
+
+  }
+
+  .starting {
+    width: 200px;
+    margin-left: -100px;
+  }
+
+
+}
+
 @media (min-width: 1440px) {
 
   .leaderboards {
@@ -755,7 +849,7 @@ body.blur::after {
 }
 
 
-@media (max-width: 1024px) {
+/* @media (max-width: 1024px) {
   @keyframes grow {
 
     to {
@@ -764,4 +858,4 @@ body.blur::after {
 
     }
   }
-}
+} */
