@@ -16,7 +16,7 @@ function FlagGame() {
     const [timedGameSelected, setTimedGameSelected] = useState(false);
     const [userClickedOn, setUserClickedOn] = useState('')
     const [gameWillBegin, setGameWillBegin] = useState(5)
-    const [gameTime, setGameTime] = useState(5)
+    const [gameTime, setGameTime] = useState(30)
     const [userScore, setUserScore] = useState(() => {
         const score = localStorage.getItem("score");
         return score ? parseInt(score) : 0;
@@ -61,7 +61,7 @@ function FlagGame() {
 
     //Game over handler
     useEffect(() => {
-        if (gameTime === 0 && activeGame && timedGameSelected) {
+        if (gameTime < 0 && activeGame && timedGameSelected) {
             gameOver();
         }
     }, [gameTime, activeGame, timedGameSelected]);
@@ -72,7 +72,7 @@ function FlagGame() {
         const existingScoresString = localStorage.getItem('userScoresFlags');
         const existingScores = existingScoresString ? JSON.parse(existingScoresString) : [];
         setLeaderboardData(existingScores);
-    }, [userScore]);
+    }, [userScore,activeGame]);
 
 
 
@@ -109,7 +109,7 @@ function FlagGame() {
             setTimedGameSelected(false);
         } else if (gamemode === 'timed') {
             setGameWillBegin(5)
-            setGameTime(5)
+            setGameTime(30)
             setStartingGame(true);
             setTimedGameSelected(true);
             setTimeout(() => {
@@ -149,6 +149,7 @@ function FlagGame() {
 
 
     const gameOver = () => {
+        setGameTime(30)
         let username = window.prompt('Please insert your name (Max 10 characters', 'User');
 
         if (username === null) {
@@ -226,7 +227,9 @@ function FlagGame() {
 
                     {activeComponent === 'timed' && (
                         <article className="gamefield">
+                            <div className="timeleft">
                             <p>Time left: {gameTime}</p>
+                            </div>
                             <h2>Choose the flag of {correctFlag.name}</h2>
                             {chosenFlags.map((flag, index) => (
                                 <div key={flag.name} className='singleflag'>

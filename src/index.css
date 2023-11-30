@@ -230,7 +230,7 @@ nav.menu {
 
 .games {
   margin-bottom: 20px;
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -239,9 +239,9 @@ nav.menu {
 
 .games a {
   width: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 
@@ -285,6 +285,28 @@ div.singleflag {
 
 .countdown {
   margin-left: 10px;
+}
+
+.starting {
+  width: 500px;
+  height: 200px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -250px;
+  background-color: #1a1a1a;
+  border: 1px solid var(--orange);
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timeleft {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  width:100%;
 }
 
 
@@ -575,7 +597,8 @@ article.wikigrid {
   line-height: 10px;
 }
 
-span.multiplelanguages:not(:last-child)::after, span.multiplecurrencies:not(:last-child)::after {
+span.multiplelanguages:not(:last-child)::after,
+span.multiplecurrencies:not(:last-child)::after {
   content: ',';
 }
 

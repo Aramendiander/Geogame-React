@@ -17,7 +17,7 @@ function CapitalGame() {
   const [timedGameSelected, setTimedGameSelected] = useState(false);
   const [userClickedOn, setUserClickedOn] = useState('')
   const [gameWillBegin, setGameWillBegin] = useState(5)
-  const [gameTime, setGameTime] = useState(5)
+  const [gameTime, setGameTime] = useState(30)
   const [userScore, setUserScore] = useState(() => {
     const score = localStorage.getItem("score");
     return score ? parseInt(score) : 0;
@@ -61,7 +61,7 @@ function CapitalGame() {
 
   //Game over handler
   useEffect(() => {
-    if (gameTime === 0 && activeGame && timedGameSelected) {
+    if (gameTime < 0 && activeGame && timedGameSelected) {
       gameOver();
     }
   }, [gameTime, activeGame, timedGameSelected]);
@@ -72,7 +72,7 @@ function CapitalGame() {
     const existingScoresString = localStorage.getItem('userScoresCapitals');
     const existingScores = existingScoresString ? JSON.parse(existingScoresString) : [];
     setLeaderboardData(existingScores);
-  }, [userScore]);
+  }, [userScore,activeGame]);
 
 
 
@@ -115,7 +115,7 @@ function CapitalGame() {
       setTimedGameSelected(false);
     } else if (gamemode === 'timed') {
       setGameWillBegin(5)
-      setGameTime(5)
+      setGameTime(30)
       setStartingGame(true);
       setTimedGameSelected(true);
       setTimeout(() => {
@@ -153,6 +153,7 @@ function CapitalGame() {
 
 
   const gameOver = () => {
+    setGameTime(30)
     let username = window.prompt('Please insert your name (Max 10 characters', 'User');
 
     if (username === null) {
@@ -202,8 +203,8 @@ function CapitalGame() {
             <div className='choosegame'>
               <p>Choose your game</p>
               <div>
-                <button className="choosegamemode left"  onClick={() => handleGameModeClick("infinite")} >Infinite mode</button>
-                <button className="choosegamemode right"  onClick={() => handleGameModeClick("timed")} >Time trial</button>
+                <button className="choosegamemode left" onClick={() => handleGameModeClick("infinite")} >Infinite mode</button>
+                <button className="choosegamemode right" onClick={() => handleGameModeClick("timed")} >Time trial</button>
               </div>
             </div>
           )}
@@ -232,7 +233,9 @@ function CapitalGame() {
 
           {activeComponent === 'timed' && (
             <article className="gamefield">
-              <p>Time left: {gameTime}</p>
+              <div className="timeleft">
+                <p>Time left: {gameTime}</p>
+              </div>
               <h2>Choose the capital of {correctCapital.name}</h2>
               <img className="capitalflag" src={correctCapital.flag} />
               <div className="options">
