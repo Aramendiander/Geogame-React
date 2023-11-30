@@ -137,19 +137,23 @@ function FlagGame() {
 
     const handleGuessClick = (flagname) => {
         if (flagname === correctFlag.name) {
+            disableClick()
             setUserScore(userScore + 100)
             setActiveGame(false)
             setGameResult("win")
             setTimeout(() => {
+                enableClick()
                 setGameResult(null)
                 getFourFlags();
             }, 3000);
         } else {
+            disableClick()
             setUserScore(userScore - 50)
             setActiveGame(false)
             setUserClickedOn(flagname)
             setGameResult("lose")
             setTimeout(() => {
+                enableClick()
                 setGameResult(null)
                 getFourFlags();
             }, 5000);

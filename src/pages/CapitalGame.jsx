@@ -138,14 +138,17 @@ const enableClick = () => {
 
   const handleGuessClick = (capitalname, countryname) => {
     if (capitalname === correctCapital.capital) {
+      disableClick()
       setUserScore(userScore + 100)
       setActiveGame(false)
       setGameResult("win")
       setTimeout(() => {
+        enableClick()
         setGameResult(null)
         getFourCapitals();
       }, 3000);
     } else {
+      disableClick()
       setUserScore(userScore - 50)
       setActiveGame(false)
       setUserClickedOn({
@@ -154,6 +157,7 @@ const enableClick = () => {
       })
       setGameResult("lose")
       setTimeout(() => {
+        enableClick()
         setGameResult(null)
         getFourCapitals();
       }, 5000);
