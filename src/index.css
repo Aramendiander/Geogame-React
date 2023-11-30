@@ -30,6 +30,10 @@ body {
   justify-content: center;
 }
 
+.disableclicks {
+  pointer-events: none;
+}
+
 h1,
 h2,
 h3,

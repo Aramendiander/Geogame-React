@@ -103,17 +103,29 @@ function FlagGame() {
         }
     }
 
+    const disableClick = () => {
+        const body = document.querySelector('body')
+          body.classList.add('disableclicks') 
+      }
+      
+      const enableClick = () => {
+        const body = document.querySelector('body')
+          body.classList.remove('disableclicks') 
+      }
+
 
     const handleGameModeClick = (gamemode) => {
         if (gamemode === 'infinite') {
             setActiveComponent(gamemode);
             setTimedGameSelected(false);
         } else if (gamemode === 'timed') {
+            disableClick()
             setGameWillBegin(5)
             setGameTime(30)
             setStartingGame(true);
             setTimedGameSelected(true);
             setTimeout(() => {
+                enableClick();
                 setActiveComponent(gamemode);
             }, 5000);
         }
