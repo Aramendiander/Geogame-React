@@ -190,10 +190,12 @@ function FlagGame() {
                 <>
                     {/* Choose game mode */}
                     {activeComponent === 'chooseGame' && (
-                        <div>
+                        <div className='choosegame'>
                             <p>Choose your game</p>
-                            <button onClick={() => handleGameModeClick("infinite")} >Infinite mode</button>
-                            <button onClick={() => handleGameModeClick("timed")} >Time trial</button>
+                            <div>
+                                <button className="choosegamemode left" onClick={() => handleGameModeClick("infinite")} >Infinite mode</button>
+                                <button className="choosegamemode right" onClick={() => handleGameModeClick("timed")} >Time trial</button>
+                            </div>
                         </div>
                     )}
 

@@ -108,6 +108,9 @@ nav.menu {
   padding: 0px 50px 50px 50px;
   margin-top: 50px;
   width: 750px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* .selectgame a {
@@ -136,6 +139,9 @@ nav.menu {
   position: relative;
   text-decoration: none;
   box-shadow: 0 0 0 2px var(--orange);
+  height: 80px;
+  display: flex;
+  align-items: center;
 }
 
 .selectgame a::before {
@@ -186,15 +192,26 @@ nav.menu {
 }
 
 
+.games {
+  margin-bottom: 20px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+
+.games a {
+  width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
 .games a:first-child {
   margin-right: 20px;
 }
-
-.games {
-  margin-bottom: 20px;
-}
-
-
 
 main {
   width: 50%;
@@ -407,13 +424,13 @@ div.singleflag {
   text-indent: 10px;
 }
 
-.search input[type="text"]:focus{
+.search input[type="text"]:focus {
   transition: all 0.5s;
   border: 1px solid #f49897;
   outline: #f49897;
   -webkit-box-shadow: 0px 0px 34px -10px #f49897;
--moz-box-shadow: 0px 0px 34px -10px #f49897;
-box-shadow: 0px 0px 34px -10px #f49897;
+  -moz-box-shadow: 0px 0px 34px -10px #f49897;
+  box-shadow: 0px 0px 34px -10px #f49897;
 }
 
 article.wikigrid {
@@ -431,7 +448,7 @@ article.wikigrid {
   justify-content: center;
   padding: 0 5%;
   box-shadow: 0 0 0 2px var(--orange);
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .countrycard h2 {
@@ -461,11 +478,12 @@ article.wikigrid {
 
 .moreinfo::before {
   content: '';
-  position:fixed;
+  position: fixed;
   top: 50%;
   left: 50%;
 
 }
+
 
 .moreinfo {
   display: flex;
@@ -489,6 +507,8 @@ article.wikigrid {
   content: '';
   animation: reversecard 0.5s ease-in-out backwards;
 }
+
+
 
 @keyframes reversecard {
   from {
@@ -515,6 +535,9 @@ article.wikigrid {
   text-align: center;
 }
 
+.moreinfo p {
+  line-height: 10px;
+}
 
 
 body.blur::after {
@@ -524,18 +547,114 @@ body.blur::after {
   left: 0;
   width: 100%;
   height: 100%;
-  animation: blur-animation 1s forwards ;
+  animation: blur-animation 1s forwards;
   z-index: 1;
 }
 
 @keyframes blur-animation {
-  0% { backdrop-filter: blur(0px); }
-  25% { backdrop-filter: blur(1px); }
-  50% { backdrop-filter: blur(2px); }
-  75% { backdrop-filter: blur(3px); }
-  100% { backdrop-filter: blur(4px); }
+  0% {
+    backdrop-filter: blur(0px);
+  }
+
+  25% {
+    backdrop-filter: blur(1px);
+  }
+
+  50% {
+    backdrop-filter: blur(2px);
+  }
+
+  75% {
+    backdrop-filter: blur(3px);
+  }
+
+  100% {
+    backdrop-filter: blur(4px);
+  }
 }
 
+.choosegame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.choosegame div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.choosegamemode {
+  display: inline-block;
+  padding: 0.75rem 1.25rem;
+  color: var(--orange);
+  text-transform: uppercase;
+  font-size: 1rem;
+  letter-spacing: .15rem;
+  transition: all .2s;
+  position: relative;
+  text-decoration: none;
+  box-shadow: 0 0 0 2px var(--orange);
+  background-color: transparent;
+  border: 0px;
+  height: 80px;
+  width: 40%;
+}
+
+.choosegamemode::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  height: 100%;
+  transition: all .5s;
+  z-index: -1;
+}
+
+
+.choosegamemode.left::before {
+  left: 0;
+  width: 0%;
+}
+
+.choosegamemode.right::before {
+  right: 0;
+  width: 0%;
+}
+
+.selectgame a.bottom::before {
+  left: 0;
+  bottom: 0;
+  height: 0%;
+  width: 100%;
+}
+
+.choosegamemode.left:hover::before,
+.choosegamemode.right:hover::before {
+  width: 100%;
+}
+
+.choosegamemode.bottom:hover::before {
+  height: 100%;
+}
+
+.choosegamemode:hover {
+  box-shadow: 0 0 0 2px var(--orange);
+  color: #fff;
+  border-radius: 15px;
+  transition: all 0.5s;
+}
+
+.choosegamemode:hover::before {
+  border-radius: 13px;
+  background-color: var(--orange);
+}
+
+.choosegamemode:not(:last-child) {
+  margin-right: 20px;
+}
 
 @media (min-width: 1440px) {
 

@@ -199,10 +199,12 @@ function CapitalGame() {
         <>
           {/* Choose game mode */}
           {activeComponent === 'chooseGame' && (
-            <div>
+            <div className='choosegame'>
               <p>Choose your game</p>
-              <button onClick={() => handleGameModeClick("infinite")} >Infinite mode</button>
-              <button onClick={() => handleGameModeClick("timed")} >Time trial</button>
+              <div>
+                <button className="choosegamemode left"  onClick={() => handleGameModeClick("infinite")} >Infinite mode</button>
+                <button className="choosegamemode right"  onClick={() => handleGameModeClick("timed")} >Time trial</button>
+              </div>
             </div>
           )}
 
@@ -219,29 +221,29 @@ function CapitalGame() {
                 ))}
               </div>
             </article>
-             )}
+          )}
 
 
- {/* Timed game component */}
+          {/* Timed game component */}
 
- {gameWillBegin > 0 && startingGame && (
-                        <p className="starting">Game will begin in {gameWillBegin} </p>
-                    )}
+          {gameWillBegin > 0 && startingGame && (
+            <p className="starting">Game will begin in {gameWillBegin} </p>
+          )}
 
-                    {activeComponent === 'timed' && (
-                        <article className="gamefield">
-                            <p>Time left: {gameTime}</p>
-                            <h2>Choose the capital of {correctCapital.name}</h2>
-                            <img className="capitalflag" src={correctCapital.flag} />
+          {activeComponent === 'timed' && (
+            <article className="gamefield">
+              <p>Time left: {gameTime}</p>
+              <h2>Choose the capital of {correctCapital.name}</h2>
+              <img className="capitalflag" src={correctCapital.flag} />
               <div className="options">
                 {chosenCapitals.map((capital, index) => (
                   <p className="guessthecapital" key={capital.name} onClick={() => handleGuessClick(capital.capital, capital.name)}>{capital.capital}</p>
                 ))}
               </div>
             </article>
-                    )}
+          )}
 
-                </>
+        </>
 
 
 
@@ -254,67 +256,67 @@ function CapitalGame() {
 
 
         {gameResult === 'win' && (
-            <div className="youwon">
-              <p>You guessed it right!</p>
-              {activeComponent === 'timed' && (
+          <div className="youwon">
+            <p>You guessed it right!</p>
+            {activeComponent === 'timed' && (
               <p>+100 points</p>
-              )}
-              <div className="nextgame">
-                <p>Next game in: </p>
-                <Countdown className="countdown" date={Date.now() + 3000} />
-              </div>
-
+            )}
+            <div className="nextgame">
+              <p>Next game in: </p>
+              <Countdown className="countdown" date={Date.now() + 3000} />
             </div>
-          )}
-          {gameResult === 'lose' && (
-            <div className="youmissed">
 
-              <p>Wrong, you clicked on <span className="wrongguess">{userClickedOn.capital}</span> capital of <span className="wrongguess">{userClickedOn.country}</span> </p>
-              <p>The capital of <span className="correctanswer">{correctCapital.name}</span> is <span className="correctanswer">{correctCapital.capital}</span></p>
-              {activeComponent === 'timed' && (
+          </div>
+        )}
+        {gameResult === 'lose' && (
+          <div className="youmissed">
+
+            <p>Wrong, you clicked on <span className="wrongguess">{userClickedOn.capital}</span> capital of <span className="wrongguess">{userClickedOn.country}</span> </p>
+            <p>The capital of <span className="correctanswer">{correctCapital.name}</span> is <span className="correctanswer">{correctCapital.capital}</span></p>
+            {activeComponent === 'timed' && (
               <p>You missed! -50 points 😢</p>
-              )}
-              <div className="nextgame">
-                <p>Next game in: </p>
-                <Countdown className="countdown" date={Date.now() + 5000} />
-              </div>
+            )}
+            <div className="nextgame">
+              <p>Next game in: </p>
+              <Countdown className="countdown" date={Date.now() + 5000} />
             </div>
+          </div>
+        )}
+        {/* Leaderboards */}
+        <h2 className='leaderboards'>Leaderboards:</h2>
+        <div className='postit'>
+          <p className='scoretitle'>Score:</p>
+          {leaderboardData.length > 0 && (
+            <ol>
+              {leaderboardData.map((entry, index) => (
+                <li key={index}>
+                  <span className='leaderboard-username'>{entry.username + ': '}</span>
+                  <span className='leaderboard-score'>{entry.score} points</span>
+                </li>
+              ))}
+            </ol>
           )}
-          {/* Leaderboards */}
-          <h2 className='leaderboards'>Leaderboards:</h2>
-                <div className='postit'>
-                    <p className='scoretitle'>Score:</p>
-                    {leaderboardData.length > 0 && (
-                        <ol>
-                            {leaderboardData.map((entry, index) => (
-                                <li key={index}>
-                                    <span className='leaderboard-username'>{entry.username + ': '}</span>
-                                    <span className='leaderboard-score'>{entry.score} points</span>
-                                </li>
-                            ))}
-                        </ol>
-                    )}
-                </div>
-                <div className='leaderboard-list'>
-                    {leaderboardData.length > 0 && (
-                        <ol>
-                            {leaderboardData.map((entry, index) => (
-                                <li key={index}>
-                                    <span className='leaderboard-username'>{entry.username + ' '}</span>
-                                    <span className='leaderboard-score'>{entry.score} points</span>
-                                </li>
-                            ))}
-                        </ol>
-                    )}
-                    {leaderboardData.length === 0 && (
-                        <p>No scores available yet.</p>
-                    )}
-                </div>
-            </main>
-        </>
-    );
+        </div>
+        <div className='leaderboard-list'>
+          {leaderboardData.length > 0 && (
+            <ol>
+              {leaderboardData.map((entry, index) => (
+                <li key={index}>
+                  <span className='leaderboard-username'>{entry.username + ' '}</span>
+                  <span className='leaderboard-score'>{entry.score} points</span>
+                </li>
+              ))}
+            </ol>
+          )}
+          {leaderboardData.length === 0 && (
+            <p>No scores available yet.</p>
+          )}
+        </div>
+      </main>
+    </>
+  );
 
 }
 
-      export default CapitalGame
+export default CapitalGame
 
