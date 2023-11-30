@@ -539,6 +539,10 @@ article.wikigrid {
   line-height: 10px;
 }
 
+span.multiplelanguages:not(:last-child)::after, span.multiplecurrencies:not(:last-child)::after {
+  content: ',';
+}
+
 
 body.blur::after {
   content: "";

@@ -6,16 +6,16 @@ const Menu = () => {
         <div className="navbackground">
             <nav className="menu">
                 <ul>
-                    <li>
+                    <li className="menuitem">
                         <Link to="/">Home</Link>
                     </li>
-                    <li>
+                    <li className="menuitem">
                         <Link to="/flag-guessing-game">Flag Guessing Game</Link>
                     </li>
-                    <li>
+                    <li className="menuitem">
                         <Link to="/capital-guessing-game">Capital Guessing Game</Link>
                     </li>
-                    <li>
+                    <li className="menuitem">
                         <Link to="/learn-about-countries">Learn About Countries</Link>
                     </li>
                 </ul>
