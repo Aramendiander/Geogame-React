@@ -290,21 +290,6 @@ function FlagGame() {
                         </ol>
                     )}
                 </div>
-                <div className='leaderboard-list'>
-                    {leaderboardData.length > 0 && (
-                        <ol>
-                            {leaderboardData.map((entry, index) => (
-                                <li key={index}>
-                                    <span className='leaderboard-username'>{entry.username + ' '}</span>
-                                    <span className='leaderboard-score'>{entry.score} points</span>
-                                </li>
-                            ))}
-                        </ol>
-                    )}
-                    {leaderboardData.length === 0 && (
-                        <p>No scores available yet.</p>
-                    )}
-                </div>
             </main>
         </>
     );
