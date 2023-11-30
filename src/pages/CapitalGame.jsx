@@ -28,6 +28,7 @@ function CapitalGame() {
   useEffect(() => {
     getFourCapitals();
     setLoading(false)
+    setActiveComponent('chooseGame')
   }, [countryData]);
 
 

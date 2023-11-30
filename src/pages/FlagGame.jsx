@@ -28,6 +28,7 @@ function FlagGame() {
     useEffect(() => {
         getFourFlags();
         setLoading(false)
+        setActiveComponent('chooseGame')
     }, [countryData]);
 
 
