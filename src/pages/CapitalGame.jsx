@@ -24,6 +24,9 @@ function CapitalGame() {
   });
   const [leaderboardData, setLeaderboardData] = useState([]);
 
+  useEffect(() => {
+    document.title = 'Guess the capital';
+  }, []);
 
   useEffect(() => {
     getFourCapitals();

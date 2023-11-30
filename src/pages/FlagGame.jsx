@@ -24,6 +24,10 @@ function FlagGame() {
     const [leaderboardData, setLeaderboardData] = useState([]);
 
 
+    useEffect(() => {
+        document.title = 'Guess the flag';
+      }, []);
+
 
     useEffect(() => {
         getFourFlags();

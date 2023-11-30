@@ -4,6 +4,10 @@ import { useNavigate, Link } from 'react-router-dom';
 function Home() {
     const [activeComponent, setActiveComponent] = useState('')
 
+    useEffect(() => {
+        document.title = 'Geo Game';
+      }, []);
+
     return (
         <>
             <main>

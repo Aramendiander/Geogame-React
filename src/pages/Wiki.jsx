@@ -11,6 +11,9 @@ function Wiki() {
   const [activeCountry, setActiveCountry] = useState(null);
   const [searchState, setSearchState] = useState('');
 
+  useEffect(() => {
+    document.title = 'Wiki';
+  }, []);
 
   useEffect(() => {
     AOS.init();
