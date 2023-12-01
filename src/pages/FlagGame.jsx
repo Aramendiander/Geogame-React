@@ -22,6 +22,7 @@ function FlagGame() {
         return score ? parseInt(score) : 0;
     });
     const [leaderboardData, setLeaderboardData] = useState([]);
+    const [isGameOver, setIsGameOver] = useState(true)
 
 
     useEffect(() => {
@@ -54,7 +55,7 @@ function FlagGame() {
 
     //Game time counter
     useEffect(() => {
-        if (gameWillBegin === 0 && activeGame) {
+        if (gameWillBegin === 0 && activeGame && !isGameOver) {
             const gameLengthCountdownInterval = setInterval(() => {
                 setGameTime(gameTime - 1);
             }, 1000);
@@ -123,6 +124,7 @@ function FlagGame() {
             setActiveComponent(gamemode);
             setTimedGameSelected(false);
         } else if (gamemode === 'timed') {
+            setIsGameOver(false)
             disableClick()
             setGameWillBegin(5)
             setGameTime(30)
@@ -170,6 +172,7 @@ function FlagGame() {
 
 
     const gameOver = () => {
+        setIsGameOver(true)
         setGameTime(30)
         let username = window.prompt('Please insert your name (Max 10 characters', 'User');
 
