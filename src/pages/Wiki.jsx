@@ -10,13 +10,15 @@ function Wiki() {
   const { countryData } = useContext(countryDataContext);
   const [activeCountry, setActiveCountry] = useState(null);
   const [searchState, setSearchState] = useState('');
+  const [randomFlag, setRandomFlag] = useState('')
 
   useEffect(() => {
     document.title = 'Wiki';
+    AOS.init();
+    randomFlagEmoji()
   }, []);
 
   useEffect(() => {
-    AOS.init();
   }, [])
 
 
@@ -34,6 +36,11 @@ function Wiki() {
       body.classList.remove("blur")
       console.log('hola')
     })
+  }
+
+  const randomFlagEmoji = () => {
+    const randomNumber = Math.floor(Math.random() * countryData.length)
+    setRandomFlag(countryData[randomNumber].flag)
   }
 
 
@@ -62,6 +69,7 @@ function Wiki() {
           ))}
         </article>
       </main>
+      <a id="up" href="#">Go up {randomFlag}</a>
     </>
   )
 }

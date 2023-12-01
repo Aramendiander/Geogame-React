@@ -726,6 +726,23 @@ body.blur::after {
   margin-right: 20px;
 }
 
+
+#up {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 10%;
+  height: 10%;
+  padding: 10px;
+  border-radius: 30px;
+  text-decoration: none;
+  color: white;
+  background-color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media screen and (max-width: 1024px) {
 
   .menu ul {
@@ -742,6 +759,11 @@ body.blur::after {
 
 
 @media screen and (max-width: 768px) {
+
+  #up {
+    width: 20%;
+  }
+
   .menu li {
     margin-right: 0px !important;
     width: 25%;
@@ -787,6 +809,10 @@ body.blur::after {
 
 
 @media screen and (max-width: 425px) {
+
+  #up {
+    width: 35%;
+  }
 
   .flag-guessing-game main,
   .capital-guessing-game main {
