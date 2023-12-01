@@ -741,6 +741,7 @@ body.blur::after {
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor:pointer;
 }
 
 @media screen and (max-width: 1024px) {
@@ -882,14 +883,3 @@ body.blur::after {
   }
 }
 
-
-/* @media (max-width: 1024px) {
-  @keyframes grow {
-
-    to {
-
-      width: 50%;
-
-    }
-  }
-} */

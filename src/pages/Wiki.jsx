@@ -43,6 +43,13 @@ function Wiki() {
     setRandomFlag(countryData[randomNumber].flag)
   }
 
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
 
   const filterSearch = sortedData.filter((country) =>
   country.name.common.toLowerCase().includes(searchState.toLowerCase())
@@ -69,7 +76,7 @@ function Wiki() {
           ))}
         </article>
       </main>
-      <a id="up" href="#">Go up {randomFlag}</a>
+      <div id="up" onClick={handleScrollToTop}>Go up {randomFlag}</div>
     </>
   )
 }
