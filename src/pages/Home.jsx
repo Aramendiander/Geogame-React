@@ -6,6 +6,15 @@ function Home() {
 
     useEffect(() => {
         document.title = 'Geo Game';
+        const ogTitle = document.createElement('meta');
+        ogTitle.setAttribute('property', 'og:title');
+        ogTitle.content = 'Geo Game - Your web app to learn and practice geography in a fun way.';
+        document.getElementsByTagName('head')[0].appendChild(ogTitle);
+        const ogDescription = document.createElement('meta')
+        ogDescription.setAttribute('property', 'og:description');
+        ogDescription.content = 'Geo Game is your website to learn and practice geography in a fun way. You can play games to guess the flag or the capital of a country, or you can learn about every country in the world.';
+        document.getElementsByTagName('head')[0].appendChild(ogDescription);
+        
       }, []);
 
     return (

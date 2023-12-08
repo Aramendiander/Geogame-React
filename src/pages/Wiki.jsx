@@ -19,6 +19,14 @@ function Wiki() {
   }, []);
 
   useEffect(() => {
+    const ogTitle = document.createElement('meta');
+        ogTitle.setAttribute('property', 'og:title');
+        ogTitle.content = 'Learn about the countries of the world - Geo Game';
+        document.getElementsByTagName('head')[0].appendChild(ogTitle);
+        const ogDescription = document.createElement('meta')
+        ogDescription.setAttribute('property', 'og:description');
+        ogDescription.content = 'Learn about every country in the world. Flags, capitals, languages, population, area, currency, and more.';
+        document.getElementsByTagName('head')[0].appendChild(ogDescription);
   }, [])
 
 

@@ -27,6 +27,15 @@ function CapitalGame() {
 
   useEffect(() => {
     document.title = 'Guess the capital';
+    const ogTitle = document.createElement('meta');
+    ogTitle.setAttribute('property', 'og:title');
+    ogTitle.content = 'Guess the Capital - Geo Game';
+    document.getElementsByTagName('head')[0].appendChild(ogTitle);
+    const ogDescription = document.createElement('meta')
+    ogDescription.setAttribute('property', 'og:description');
+    ogDescription.content = 'Guess the capital! A fun game to test your knowledge about the world\'s countries capital cities.';
+    document.getElementsByTagName('head')[0].appendChild(ogDescription);
+
   }, []);
 
   useEffect(() => {
@@ -77,7 +86,7 @@ function CapitalGame() {
     const existingScoresString = localStorage.getItem('userScoresCapitals');
     const existingScores = existingScoresString ? JSON.parse(existingScoresString) : [];
     setLeaderboardData(existingScores);
-  }, [userScore,activeGame]);
+  }, [userScore, activeGame]);
 
 
 
@@ -112,15 +121,15 @@ function CapitalGame() {
   }
 
 
-const disableClick = () => {
-  const body = document.querySelector('body')
-    body.classList.add('disableclicks') 
-}
+  const disableClick = () => {
+    const body = document.querySelector('body')
+    body.classList.add('disableclicks')
+  }
 
-const enableClick = () => {
-  const body = document.querySelector('body')
-    body.classList.remove('disableclicks') 
-}
+  const enableClick = () => {
+    const body = document.querySelector('body')
+    body.classList.remove('disableclicks')
+  }
 
   const handleGameModeClick = (gamemode) => {
     if (gamemode === 'infinite') {
@@ -134,7 +143,7 @@ const enableClick = () => {
       setStartingGame(true);
       setTimedGameSelected(true);
       setTimeout(() => {
-        enableClick() 
+        enableClick()
         setActiveComponent(gamemode);
       }, 5000);
     }

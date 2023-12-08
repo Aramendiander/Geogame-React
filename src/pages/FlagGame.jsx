@@ -27,6 +27,14 @@ function FlagGame() {
 
     useEffect(() => {
         document.title = 'Guess the flag';
+        const ogTitle = document.createElement('meta');
+        ogTitle.setAttribute('property', 'og:title');
+        ogTitle.content = 'Guess the Flag - Geo Game';
+        document.getElementsByTagName('head')[0].appendChild(ogTitle);
+        const ogDescription = document.createElement('meta')
+        ogDescription.setAttribute('property', 'og:description');
+        ogDescription.content = 'Guess the Flag! A fun game to test your knowledge about the world\'s countries flags.';
+        document.getElementsByTagName('head')[0].appendChild(ogDescription);
       }, []);
 
 
